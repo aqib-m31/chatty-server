@@ -7,6 +7,11 @@ from db_operations import *
 from env_setup import *
 
 
+@app.route("/ping", methods=["GET"])
+def ping():
+    return jsonify({"message": "Server is running!"})
+
+
 @app.route("/register", methods=["POST"])
 def register():
     """
