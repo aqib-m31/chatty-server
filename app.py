@@ -117,7 +117,8 @@ def get_rooms():
 def on_delete(data):
     """
     Handles the 'delete' event. It extracts the username and room ID from the JWT token and data respectively,
-    checks if the room exists and belongs to the user, deletes the room, and emits a 'delete_response' event to the client.
+    checks if the room exists and belongs to the user, deletes the room, and emits a 'delete_response' event to
+    users in the room.
 
     :param data: A dictionary that contains the data sent by the client.
     :return: If an error occurs, returns a JSON response with an error message and a 401 status code.
@@ -133,6 +134,7 @@ def on_delete(data):
                 to=request.sid,
             )
         else:
+            room = room_info["room_name"]
             delete_room(room_id)
             socketio.emit(
                 "delete_response",
@@ -140,6 +142,7 @@ def on_delete(data):
                     "error": False,
                     "message": f"{room_info['room_name']} deleted by owner [{username}]",
                 },
+                to=room
             )
     except Exception as e:
         return jsonify({"error": True, "message": str(e)}), 401
