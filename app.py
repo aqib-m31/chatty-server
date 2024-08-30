@@ -135,6 +135,7 @@ def on_delete(data):
             )
         else:
             room = room_info["room_name"]
+            join_room(room)
             delete_room(room_id)
             socketio.emit(
                 "delete_response",
